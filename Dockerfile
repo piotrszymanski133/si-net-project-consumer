@@ -17,4 +17,4 @@ RUN dotnet publish "si-net-project-consumer.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "si-net-project-consumer.csproj"]
+ENTRYPOINT ["dotnet", "si-net-project-consumer.dll"]
