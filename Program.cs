@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using RabbitMQ.Client;
 
 namespace si_net_project_consumer
@@ -25,7 +26,9 @@ namespace si_net_project_consumer
                     
                     var temperatureConsumer = new Consumer(channel, ConnectionString, DatabaseName, TemperatureCollection);
                     channel.BasicConsume(TemperatureCollection, false, temperatureConsumer);
-                    Console.Read();
+                    while (true)
+                    {
+                    }
                 }
             }
         }
