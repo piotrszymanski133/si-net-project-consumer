@@ -25,7 +25,7 @@ namespace si_net_project_consumer
                     
                     var temperatureConsumer = new Consumer(channel, ConnectionString, DatabaseName, TemperatureCollection);
                     channel.BasicConsume(TemperatureCollection, false, temperatureConsumer);
-                    Console.ReadKey();
+                    Console.Read();
                 }
             }
         }
