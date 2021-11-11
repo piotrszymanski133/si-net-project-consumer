@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
@@ -26,7 +27,7 @@ namespace si_net_project_consumer
             string idFromQueue = data.id;
             double timestampFromqueue = data.timestamp;
             
-            HiveId = idFromQueue[^1];
+            HiveId = Int32.Parse(Regex.Match(idFromQueue, @"\d+").Value);
             Value = data.value;
             DateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             DateTime = DateTime.AddMilliseconds(timestampFromqueue).ToLocalTime();
