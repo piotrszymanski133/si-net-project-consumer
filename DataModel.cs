@@ -29,7 +29,7 @@ namespace si_net_project_consumer
             
             HiveId = Int32.Parse(Regex.Match(idFromQueue, @"\d+").Value);
             Value = data.value;
-            DateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            DateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
             DateTime = DateTime.AddMilliseconds(timestampFromqueue).ToLocalTime();
 
         }
