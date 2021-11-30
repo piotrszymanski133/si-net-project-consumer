@@ -17,61 +17,61 @@ namespace si_net_project_consumer
         static void Main(string[] args)
         {
             var factory = new ConnectionFactory() {HostName = Host};
-            while (true)
+            try
             {
-                try
+                Console.WriteLine("TRYING TO CONNECT");
+                using (var connection = factory.CreateConnection())
                 {
-                    using (var connection = factory.CreateConnection())
+                    Console.WriteLine("CREATED CONNECTION");
+                    using (var channel = connection.CreateModel())
                     {
-                        using (var channel = connection.CreateModel())
+                        Console.WriteLine("CREATED CHANNEL");
+                        channel.QueueDeclare(queue: TemperatureCollection,
+                            durable: false,
+                            exclusive: false,
+                            autoDelete: false,
+                            arguments: null);
+
+                        channel.QueueDeclare(queue: HumidityCollection,
+                            durable: false,
+                            exclusive: false,
+                            autoDelete: false,
+                            arguments: null);
+
+                        channel.QueueDeclare(queue: WindCollection,
+                            durable: false,
+                            exclusive: false,
+                            autoDelete: false,
+                            arguments: null);
+
+                        channel.QueueDeclare(queue: PressureCollection,
+                            durable: false,
+                            exclusive: false,
+                            autoDelete: false,
+                            arguments: null);
+
+                        var temperatureConsumer =
+                            new Consumer(channel, ConnectionString, DatabaseName, TemperatureCollection);
+                        var humidityConsumer =
+                            new Consumer(channel, ConnectionString, DatabaseName, HumidityCollection);
+                        var windConsumer = new Consumer(channel, ConnectionString, DatabaseName, WindCollection);
+                        var pressureConsumer =
+                            new Consumer(channel, ConnectionString, DatabaseName, PressureCollection);
+
+                        channel.BasicConsume(TemperatureCollection, false, temperatureConsumer);
+                        channel.BasicConsume(HumidityCollection, false, humidityConsumer);
+                        channel.BasicConsume(WindCollection, false, windConsumer);
+                        channel.BasicConsume(PressureCollection, false, pressureConsumer);
+                        while (true)
                         {
-                            channel.QueueDeclare(queue: TemperatureCollection,
-                                durable: false,
-                                exclusive: false,
-                                autoDelete: false,
-                                arguments: null);
-
-                            channel.QueueDeclare(queue: HumidityCollection,
-                                durable: false,
-                                exclusive: false,
-                                autoDelete: false,
-                                arguments: null);
-
-                            channel.QueueDeclare(queue: WindCollection,
-                                durable: false,
-                                exclusive: false,
-                                autoDelete: false,
-                                arguments: null);
-
-                            channel.QueueDeclare(queue: PressureCollection,
-                                durable: false,
-                                exclusive: false,
-                                autoDelete: false,
-                                arguments: null);
-
-                            var temperatureConsumer =
-                                new Consumer(channel, ConnectionString, DatabaseName, TemperatureCollection);
-                            var humidityConsumer =
-                                new Consumer(channel, ConnectionString, DatabaseName, HumidityCollection);
-                            var windConsumer = new Consumer(channel, ConnectionString, DatabaseName, WindCollection);
-                            var pressureConsumer =
-                                new Consumer(channel, ConnectionString, DatabaseName, PressureCollection);
-
-                            channel.BasicConsume(TemperatureCollection, false, temperatureConsumer);
-                            channel.BasicConsume(HumidityCollection, false, humidityConsumer);
-                            channel.BasicConsume(WindCollection, false, windConsumer);
-                            channel.BasicConsume(PressureCollection, false, pressureConsumer);
-                            while (true)
-                            {
-                            }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine(ex.StackTrace);
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
         }
     }
