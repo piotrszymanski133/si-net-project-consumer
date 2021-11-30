@@ -16,6 +16,7 @@ namespace si_net_project_consumer
 
         static void Main(string[] args)
         {
+            var remainingMessages = 20;
             var factory = new ConnectionFactory() {HostName = Host};
             try
             {
@@ -49,6 +50,8 @@ namespace si_net_project_consumer
                             exclusive: false,
                             autoDelete: false,
                             arguments: null);
+                        
+                        Console.WriteLine("ALL QUEUES DECLARED");
 
                         var temperatureConsumer =
                             new Consumer(channel, ConnectionString, DatabaseName, TemperatureCollection);
@@ -62,8 +65,14 @@ namespace si_net_project_consumer
                         channel.BasicConsume(HumidityCollection, false, humidityConsumer);
                         channel.BasicConsume(WindCollection, false, windConsumer);
                         channel.BasicConsume(PressureCollection, false, pressureConsumer);
+                        Console.WriteLine("ALL CONSUMERS RUNNING");
                         while (true)
                         {
+                            if (remainingMessages > 0)
+                            {
+                                Console.WriteLine("I'M IN LOOP");
+                                remainingMessages--;
+                            }
                         }
                     }
                 }

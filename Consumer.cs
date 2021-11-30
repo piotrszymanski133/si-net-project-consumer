@@ -29,12 +29,20 @@ namespace si_net_project_consumer
         public override void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered,
             string exchange, string routingKey, IBasicProperties properties, ReadOnlyMemory<byte> body)
         {
-            var message = Encoding.UTF8.GetString(body.ToArray());
-            DataModel model = new DataModel(message);
+            try
+            {
+                var message = Encoding.UTF8.GetString(body.ToArray());
+                DataModel model = new DataModel(message);
 
-            var data = _mongoDatabase.GetCollection<DataModel>(_collection);
-            data.InsertOne(model);
-            var readAll = data.Find( temperature => true);
+                var data = _mongoDatabase.GetCollection<DataModel>(_collection);
+                data.InsertOne(model);
+                var readAll = data.Find(temperature => true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
         }
     }
 
