@@ -69,7 +69,8 @@ namespace si_net_project_consumer
                 }
                 catch (Exception ex)
                 {
-                    
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
                 }
             }
         }
