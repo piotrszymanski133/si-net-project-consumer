@@ -6,7 +6,7 @@ namespace si_net_project_consumer
 {
     class Program
     {
-        private const string ConnectionString = "mongodb://root:student@mlocalhost:27017/";
+        private const string ConnectionString = "mongodb://root:student@localhost:27017/";
         private const string DatabaseName = "SI_17555";
         private const string Host = "rabbitmq";
         private const string TemperatureCollection = "temperature";
