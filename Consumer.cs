@@ -13,9 +13,17 @@ namespace si_net_project_consumer
         private string _collection;
         public Consumer(IModel model, string connectionString, string databaseName, string collection) : base(model)
         {
-            _mongoClient = new MongoClient(connectionString);
-            _mongoDatabase = _mongoClient.GetDatabase(databaseName);
-            _collection = collection;
+            try
+            {
+                _mongoClient = new MongoClient(connectionString);
+                _mongoDatabase = _mongoClient.GetDatabase(databaseName);
+                _collection = collection;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
         }
 
         public override void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered,
