@@ -8,7 +8,7 @@ namespace si_net_project_consumer
     {
         private const string ConnectionString = "mongodb://root:student@mongo:27017/";
         private const string DatabaseName = "SI_17555";
-        private const string Host = "rabbitmq";
+        private const string Host = "rabbitmq-SI-175557";
         private const string TemperatureCollection = "temperature";
         private const string HumidityCollection = "humidity";
         private const string WindCollection = "wind";
